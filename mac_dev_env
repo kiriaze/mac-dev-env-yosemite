@@ -25,15 +25,24 @@ Mac Dev Env Setup
 	// http://lapwinglabs.com/blog/hacker-guide-to-setting-up-your-mac
 	// https://github.com/IcaliaLabs/kaishi
 
+Run this exactly like this.
+
 system pref
 	change name of computer
 	mouse/trackpad settings
 	hotspots
+
 software updates
 	make sure youve updated everything, thought i did, and now it says it hasnt installed yosemite so fuck me right?
 
 xcode dev tools:
 	xcode-select --install
+		get xcode
+		and install dev tools
+
+# xquartz
+curl http://xquartz-dl.macosforge.org/SL/XQuartz-2.7.7.dmg -o /tmp/XQuartz.dmg
+open /tmp/XQuartz.dmg
 
 homebrew:
 	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -43,8 +52,8 @@ homebrew:
 	brew upgrade
 	brew tap homebrew/dupes
 	brew tap homebrew/versions
-	brew tap homebrew/homebrew-php
-	brew install php56
+	brew tap homebrew/homebrew-php # theres also: brew tap homebrew/php
+	brew install php56 # brew install --without-apache --with-fpm --with-mysql php56
 	brew install imagemagick
 
 
@@ -66,6 +75,130 @@ echo export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH" >> ~/.bash_pr
 
 brew cleanup
 
+ZSH
+	brew install zsh
+	sudo mv /etc/zshenv /etc/zprofile
+	cat /etc/shells | grep zsh || which zsh | sudo tee -a /etc/shells
+	chsh -s $(which zsh)
+
+
+# Setup PHP CLI binary
+# If you use Bash
+echo 'export PATH="$(brew --prefix homebrew/php/php56)/bin:$PATH"' >> ~/.bash_profile && . ~/.bash_profile
+# If you use ZSH
+echo 'export PATH="$(brew --prefix homebrew/php/php56)/bin:$PATH"' >> ~/.zshrc && . ~/.zshrc
+
+
+# Setup auto start
+mkdir -p ~/Library/LaunchAgents
+cp /usr/local/Cellar/php55/5.5.18/homebrew.mxcl.php55.plist ~/Library/LaunchAgents/
+
+# start PHP-FPM
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php55.plist
+
+# Make sure PHP-FPM is listening on port 9000:
+lsof -Pni4 | grep LISTEN | grep php
+
+
+mysql
+	brew install mysql
+	// mysql.server start // not sure if needed
+
+MariaDB
+	brew unlink mysql
+	brew info mariadb # Verify MariaDB Version in Homebrew Repo
+	brew install mariadb # Install MariaDB
+
+	# mysql setup auto start and start the database
+	ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents
+	launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+
+	# Run the Database Installer
+	unset TMPDIR
+	cd /usr/local/Cellar/mariadb/{VERSION}
+	mysql_install_db
+
+	mysql.server start # Start MariaDB
+	mysql_secure_installation # Secure the Installation
+	mysql -u root -p # Connect to MariaDB
+
+Nginx
+	brew install nginx
+
+	# Since we want to use port 80 have to start the Nginx process as root:
+	sudo cp -v /usr/local/opt/nginx/*.plist /Library/LaunchDaemons/
+	sudo chown root:wheel /Library/LaunchDaemons/homebrew.mxcl.nginx.plist
+
+	# Test web server
+	sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.nginx.plist
+
+	# The default configuration is set that it will listen on port 8080 instead of the HTTP standard 80. Ignore that for now
+	curl -IL http://127.0.0.1:8080
+
+	# stop nginx
+	sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.nginx.plist
+
+	# create some dirs which we are going to use in the configurtion files
+	mkdir -p /usr/local/etc/nginx/logs
+	mkdir -p /usr/local/etc/nginx/sites-available
+	mkdir -p /usr/local/etc/nginx/sites-enabled
+	mkdir -p /usr/local/etc/nginx/conf.d
+	mkdir -p /usr/local/etc/nginx/ssl
+	sudo mkdir -p /var/www
+
+	sudo chown :staff /var/www
+	sudo chmod 775 /var/www
+
+	# remove default nginx.conf and replace it with below
+	rm /usr/local/etc/nginx/nginx.conf
+	curl -L https://gist.github.com/frdmn/7853158/raw/nginx.conf -o /usr/local/etc/nginx/nginx.conf
+
+	# Download custom PHP-FPM configuration
+	curl -L https://gist.github.com/frdmn/7853158/raw/php-fpm -o /usr/local/etc/nginx/conf.d/php-fpm
+
+	# Create default virtual hosts
+	curl -L https://gist.github.com/frdmn/7853158/raw/sites-available_default -o /usr/local/etc/nginx/sites-available/default
+
+	# Clone my example virtual host (including 404, 403 and a phpinfo() rewrite) using git:
+	git clone http://git.frd.mn/frdmn/nginx-virtual-host.git /var/www
+	# And remove /var/www/.git folder so your future projects won't get tracked by git.
+	rm -rf /var/www/.git
+
+
+	# Enable virtual hosts
+	# Now we need to symlink the virtual hosts we want to enable into the sites-enabled folder:
+	ln -sfv /usr/local/etc/nginx/sites-available/default /usr/local/etc/nginx/sites-enabled/default
+
+	# start nginx
+	sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.nginx.plist
+
+	# Because your probably need to restart the one or other service sooner or later, you probably want to set up some aliases:
+	curl -L https://gist.github.com/frdmn/7853158/raw/bash_aliases -o /tmp/.bash_aliases
+	cat /tmp/.bash_aliases >> ~/.bash_aliases
+
+	# If you use Bash
+	echo "source ~/.bash_aliases" >> ~/.bash_profile
+	# If you use ZSH
+	echo "source ~/.bash_aliases" >> ~/.zshrc
+
+	# You can start, stop and restart Nginx with:
+	nginx.start
+	nginx.stop
+	nginx.restart
+
+	# Start, start and restart PHP-FPM:
+	php-fpm.start
+	php-fpm.stop
+	php-fpm.restart
+
+	# Start, start and restart your MySQL server:
+	mysql.start
+	mysql.stop
+	mysql.restart
+
+	# yosemitie issues?
+	brew reinstall --force nginx
+
 Git
 	brew install git
 
@@ -77,9 +210,6 @@ Git
 	git config --global core.excludesfile '~/.gitignore'
 	echo '.DS_Store' >> ~/.gitignore
 
-	# add your IDE files to global config
-	echo '.idea/*' >> ~/.gitignore
-
 	# use keychain for storing passwords
 	git config --global credential.helper osxkeychain
 
@@ -88,7 +218,7 @@ Git
 
 	# more useful settings: https://github.com/glebm/dotfiles/blob/master/.gitconfig
 
-	# ssh keys
+	# ssh keys - probably can skip this since github app auto adds it for you which is nice
 	ls -al ~/.ssh # Lists the files in your .ssh directory, if they exist
 	ssh-keygen -t rsa -C "your_email@example.com" # Creates a new ssh key, using the provided email as a label
 	eval "$(ssh-agent -s)" # start the ssh-agent in the background
@@ -100,29 +230,6 @@ RVM
 	brew update && brew upgrade
 	rvm reinstall 2.1.3 --disable-binary
 
-mysql
-	brew install mysql
-	// mysql.server start // not sure if needed
-
-MariaDB
-	brew unlink mysql
-	brew info mariadb # Verify MariaDB Version in Homebrew Repo
-	brew install mariadb # Install MariaDB
-
-	# Run the Database Installer
-	unset TMPDIR
-	cd /usr/local/Cellar/mariadb/{VERSION}
-	mysql_install_db
-
-	mysql.server start # Start MariaDB
-	mysql_secure_installation # Secure the Installation
-	mysql -u root -p # Connect to MariaDB
-
-ZSH
-	brew install zsh
-	sudo mv /etc/zshenv /etc/zprofile
-	cat /etc/shells | grep zsh || which zsh | sudo tee -a /etc/shells
-	chsh -s $(which zsh)
 
 Node
 	brew update
@@ -221,6 +328,9 @@ Cask
 			movetab
 			unsplash
 			wordpress
+			TrailingSpaces
+			sublimecodeintel
+			jekyll
 
 # Install Mackup
 brew install mackup

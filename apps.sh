@@ -11,20 +11,27 @@ apps=(
   vagrant
   flash
   iterm2
+  qlcolorcode
+  qlstephen
+  qlmarkdown
+  quicklook-json
   qlprettypatch
+  quicklook-csv
+  betterzipql
+  webp-quicklook
+  suspicious-package
+  asepsis
   shiori
   sublime-text3
   virtualbox
   atom
   flux
   mailbox
-  qlstephen
   sketch
   tower
   vlc
   cloudup
   nvalt
-  quicklook-json
   skype
   transmission
   anvil
