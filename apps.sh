@@ -56,7 +56,6 @@ apps=(
   sequel-pro
   github
   codekit
-
 )
 
 # Install apps to /Applications
