@@ -53,7 +53,7 @@ homebrew:
 	brew tap homebrew/dupes
 	brew tap homebrew/versions
 	brew tap homebrew/homebrew-php # theres also: brew tap homebrew/php
-	brew install php56 # brew install --without-apache --with-fpm --with-mysql php56
+	brew install --with-fpm php56 # brew install --without-apache --with-fpm php56
 	brew install imagemagick
 
 
@@ -91,38 +91,19 @@ echo 'export PATH="$(brew --prefix homebrew/php/php56)/bin:$PATH"' >> ~/.zshrc &
 
 # Setup auto start
 mkdir -p ~/Library/LaunchAgents
-cp /usr/local/Cellar/php55/5.5.18/homebrew.mxcl.php55.plist ~/Library/LaunchAgents/
+cp /usr/local/Cellar/php56/5.6.2/homebrew.mxcl.php56.plist ~/Library/LaunchAgents/
 
 # start PHP-FPM
-launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php55.plist
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php56.plist
 
 # Make sure PHP-FPM is listening on port 9000:
 lsof -Pni4 | grep LISTEN | grep php
 
 
-mysql
-	brew install mysql
-	// mysql.server start // not sure if needed
 
-MariaDB
-	brew unlink mysql
-	brew info mariadb # Verify MariaDB Version in Homebrew Repo
-	brew install mariadb # Install MariaDB
-
-	# mysql setup auto start and start the database
-	ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents
-	launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
-
-	# Run the Database Installer
-	unset TMPDIR
-	cd /usr/local/Cellar/mariadb/{VERSION}
-	mysql_install_db
-
-	mysql.server start # Start MariaDB
-	mysql_secure_installation # Secure the Installation
-	mysql -u root -p # Connect to MariaDB
 
 Nginx
+
 	brew install nginx
 
 	# Since we want to use port 80 have to start the Nginx process as root:
@@ -199,6 +180,33 @@ Nginx
 	# yosemitie issues?
 	brew reinstall --force nginx
 
+
+
+mysql
+	brew install mysql
+	// mysql.server start // not sure if needed
+
+
+MariaDB
+	brew unlink mysql
+	brew info mariadb # Verify MariaDB Version in Homebrew Repo
+	brew install mariadb # Install MariaDB
+
+	# mysql setup auto start and start the database
+	ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents
+	launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+
+	# Run the Database Installer
+	unset TMPDIR
+	cd /usr/local/Cellar/mariadb/{VERSION}
+	mysql_install_db
+
+	mysql.server start # Start MariaDB
+	mysql_secure_installation # Secure the Installation
+	mysql -u root -p # Connect to MariaDB
+
+
+
 Git
 	brew install git
 
@@ -225,6 +233,7 @@ Git
 	ssh-add ~/.ssh/id_rsa
 	pbcopy < ~/.ssh/id_rsa.pub # Copies the contents of the id_rsa.pub file to your clipboard to paste in github or w/e
 
+
 RVM
 	curl -L https://get.rvm.io | bash -s stable --ruby
 	brew update && brew upgrade
@@ -235,11 +244,6 @@ Node
 	brew update
 	brew install node
 
-
-
-hosts/httpd_vhosts/hosts files for yosemtite
-	or install nginx and use vhosts like DO
-		http://blog.frd.mn/install-nginx-php-fpm-mysql-and-phpmyadmin-on-os-x-mavericks-using-homebrew/
 
 
 composer
@@ -256,16 +260,9 @@ gulp
 	npm install --global gulp
 
 
-services
-	harvest
-	github
-	bitbucket
-	dropbox
-	heroku
-		brew install heroku-toolbelt
-		heroku update
-	pagodabox
-		gem install pagoda
+
+http://akrabat.com/php/setting-up-php-mysql-on-os-x-yosemite/
+
 
 
 Cask
@@ -331,6 +328,8 @@ Cask
 			TrailingSpaces
 			sublimecodeintel
 			jekyll
+
+
 
 # Install Mackup
 brew install mackup
