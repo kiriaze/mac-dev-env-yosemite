@@ -100,12 +100,6 @@ echo 'export PATH="$(brew --prefix homebrew/php/php56)/bin:$PATH"' >> ~/.zshrc &
 mkdir -p ~/Library/LaunchAgents
 cp /usr/local/Cellar/php56/5.6.2/homebrew.mxcl.php56.plist ~/Library/LaunchAgents/
 
-# start PHP-FPM
-launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php56.plist
-
-# Make sure PHP-FPM is listening on port 9000:
-lsof -Pni4 | grep LISTEN | grep php
-
 
 mysql
 	brew install mysql
