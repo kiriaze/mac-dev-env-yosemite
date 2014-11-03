@@ -80,7 +80,7 @@ echo export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH" >> ~/.bash_pr
 
 brew cleanup
 
-ZSH
+ZSH - https://github.com/robbyrussell/oh-my-zsh
 	brew install zsh
 	sudo mv /etc/zshenv /etc/zprofile
 	cat /etc/shells | grep zsh || which zsh | sudo tee -a /etc/shells
