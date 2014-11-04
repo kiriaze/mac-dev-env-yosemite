@@ -187,10 +187,10 @@ Mac Dev Env Setup consists of:
 	$ apps.sh # run it
 
 ### iterm
-		$ cd ~
-		$ curl -O https://raw.githubusercontent.com/nicolashery/mac-dev-setup/master/.bash_profile
-		$ curl -O https://raw.githubusercontent.com/nicolashery/mac-dev-setup/master/.bash_prompt
-		$ curl -O https://raw.githubusercontent.com/nicolashery/mac-dev-setup/master/.aliases
+	$ cd ~
+	$ curl -O https://raw.githubusercontent.com/nicolashery/mac-dev-setup/master/.bash_profile
+	$ curl -O https://raw.githubusercontent.com/nicolashery/mac-dev-setup/master/.bash_prompt
+	$ curl -O https://raw.githubusercontent.com/nicolashery/mac-dev-setup/master/.aliases
 
 ### chrome extenstions
 1. edit this cookie
