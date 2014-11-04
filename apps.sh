@@ -1,3 +1,4 @@
+#!/bin/bash
 # Apps
 apps=(
   dropbox
@@ -56,6 +57,8 @@ apps=(
   sequel-pro
   github
   codekit
+  tomighty
+  rescuetime
 )
 
 # Install apps to /Applications

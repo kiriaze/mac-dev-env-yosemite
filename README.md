@@ -1,6 +1,14 @@
 MDE (mac-dev-env)
 ===========
 
+### Update (11.3.14)
+
+Self executing script v.1
+
+	$ sh ./init.sh
+
+---
+
 Mac Dev Env Setup consists of:
 
 	homebrew
@@ -244,9 +252,3 @@ Mac Dev Env Setup consists of:
 
 ### Launch it and back up your files
 `$ mackup backup`
-
-
-### To Do's
-1. create a bash script to do all this for you - inspired by
-	* http://lapwinglabs.com/blog/hacker-guide-to-setting-up-your-mac
-	* https://github.com/IcaliaLabs/kaishi
