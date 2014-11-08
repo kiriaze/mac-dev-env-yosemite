@@ -156,6 +156,43 @@ echo ""
 echo "Adding a context menu item for showing the Web Inspector in web views"
 defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 
+
+# Use current directory as default search scope in Finder
+echo ""
+echo "Use current directory as default search scope in Finder"
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+# Show Path bar in Finder
+echo ""
+echo "Show Path bar in Finder"
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Show Status bar in Finder
+echo ""
+echo "Show Status bar in Finder"
+defaults write com.apple.finder ShowStatusBar -bool true
+
+# Show indicator lights for open applications in the Dock
+echo ""
+echo "Show indicator lights for open applications in the Dock"
+defaults write com.apple.dock show-process-indicators -bool true
+
+# Set a blazingly fast keyboard repeat rate
+echo ""
+echo "Set a blazingly fast keyboard repeat rate"
+defaults write NSGlobalDomain KeyRepeat -int 1
+
+# Set a shorter Delay until key repeat
+echo ""
+echo "Set a shorter Delay until key repeat"
+defaults write NSGlobalDomain InitialKeyRepeat -int 12
+
+# Show the ~/Library folder
+echo ""
+echo "Show the ~/Library folder"
+chflags nohidden ~/Library
+
+
 ###############################################################################
 # Mail
 ###############################################################################
