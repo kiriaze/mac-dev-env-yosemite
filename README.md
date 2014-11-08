@@ -239,9 +239,10 @@ Mac Dev Env Setup consists of:
 19. movetab
 20. unsplash
 21. wordpress
-22. TrailingSpaces
-23. sublimecodeintel
-24. jekyll
+22. sublimecodeintel
+23. jekyll
+24. trimmer
+25. syncedSidebar
 
 
 ### [Set up your local osx yosemite environment](http://akrabat.com/php/setting-up-php-mysql-on-os-x-yosemite/)
