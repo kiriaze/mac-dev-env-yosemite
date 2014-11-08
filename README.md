@@ -12,6 +12,8 @@ Self executing script v.1
 ### Note about Permissions
 If your httpd.conf file's Apache User/Group are not the defaul `_www`, and have been changed to say `{username}` and `staff`, then use `sudo chmod -R a+w {path}` insead of `sudo chmod -R g+w {path}`. Not as secure, but shouldn't be a big deal for local development.
 
+Make sure your bash scripts have had `chmod +x` ran on them; e.g. `chmod +x script.sh`, making the file executable by everyone.
+
 Mac Dev Env Setup consists of:
 
 	homebrew
