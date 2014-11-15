@@ -249,12 +249,43 @@ Mac Dev Env Setup consists of:
 24. trimmer
 25. syncedSidebar
 
-
-### [Set up your local osx yosemite environment](http://akrabat.com/php/setting-up-php-mysql-on-os-x-yosemite/)
-
-
 ### Install Mackup
 `$ brew install mackup`
 
 ### Launch it and back up your files
 `$ mackup backup`
+
+### Local OSX Yosemite Apache Setup
+In Yosemite, Apache 2.4.9 is installed. We just have to use the command line to start and stop it.
+
+One change compared to 2.2.x worth noting is that we now need the Require all granted directive in our virtual host definitions in place of Allow from all.
+
+```
+cd /etc/apache2
+subl /etc/apache2/httpd.conf
+```
+
+To enable PHP and rewriting in Apache, remove the leading # from these two lines:
+```
+#LoadModule rewrite_module libexec/apache2/mod_rewrite.so
+#LoadModule php5_module libexec/apache2/libphp5.so
+```
+
+At around line 236, of httpd.conf file, you'll find the DocumentRoot and `<Directory "/Library/WebServer/Documents">`. Update both to: `/Users/{username}/Localhost`
+
+Also, within `<Directory>`, update `AllowOverride None` to `AllowOverride All` so that .htaccess files will work as well as `Options FollowSymLinks Multiviews` to `Options FollowSymLinks Multiviews Indexes` so that we can view directory listings.
+
+Restart Apache: `sudo apachectl restart`
+
+Give yourself permissions to the /Users/{username}/Localhost/ folder using these cli commands:
+```
+sudo chgrp staff /Users/{username}/Localhost
+sudo chmod g+rws /Users/{username}/Localhost
+sudo chmod g+rw /Users/{username}/Localhost/*
+```
+
+Create a new file called info.php with <?php phpinfo(); ?> inside your new document root; e.g. /Users/{username}/Localhost/.
+
+Use your browser to navigate to `localhost/info.php` and check your PHP version, as well as anything else you might need to reference in the future.
+
+Use Ghosts when creating new projects in conjuncture with this setup, and have a beer cuz you just became a fly ass mother fucker.
