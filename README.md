@@ -3,13 +3,14 @@ MDE (mac-dev-env)
 
 ### Update (11.3.14)
 
-Self executing script v.1
+Self executing script v.1. Please read through script.
 
 	$ sh ./init.sh
 
 ---
 
-### Note about Permissions
+### General Notes
+Assumes this is on a fresh install of Yosemite. If you already have an environment setup, dont run the init.sh script, rather comb through this and cherry pick. Hopefully you're not using mamp or the like.
 
 All references to `subl` is for opening files within the Sublime Text editor, if you haven't heard of it, no worries, this setup will install it for you and set up an alias to use it with.
 
@@ -20,22 +21,22 @@ Mac Dev Env Setup consists of:
 	homebrew
 	php 5.6
 	update mac unix tools
-	paths
+	correct paths
 	git
 	ruby
 	mysql/mariadb
-	zsh
+	bash/zsh
 	node
 	nginx
 	composer
 	bower
 	bundler
-	Grunt
+	grunt
 	gulp
 	cask - pretty much all your apps
 	mackup - keep your app settings in sync. wHAT?! word.
-	st3/chrome extensions
-	iterm settings
+	SublimeText3 / Chrome extensions
+	iTerm settings
 
 # Run this exactly like this.
 
