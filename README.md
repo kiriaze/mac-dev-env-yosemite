@@ -10,7 +10,8 @@ Self executing script v.1
 ---
 
 ### Note about Permissions
-If your httpd.conf file's Apache User/Group are not the defaul `_www`, and have been changed to say `{username}` and `staff`, then use `sudo chmod -R a+w {path}` instead of `sudo chmod -R g+w {path}`. Not as secure, but shouldn't be a big deal for local development. If all else fails, stick to `sudo chmod -R g+w {path}`.
+
+All references to `subl` is for opening files within the Sublime Text editor, if you haven't heard of it, no worries, this setup will install it for you and set up an alias to use it with.
 
 Make sure your bash scripts have had `chmod +x` ran on them; e.g. `chmod +x script.sh`, making the file executable by everyone.
 
@@ -264,16 +265,18 @@ One change compared to 2.2.x worth noting is that we now need the Require all gr
 cd /etc/apache2
 subl /etc/apache2/httpd.conf
 ```
+Within the httpd.conf:
+1. To enable PHP and rewriting in Apache, remove the leading # from these two lines:
+    ```
+    #LoadModule rewrite_module libexec/apache2/mod_rewrite.so
+    #LoadModule php5_module libexec/apache2/libphp5.so
+    ```
 
-To enable PHP and rewriting in Apache, remove the leading # from these two lines:
-```
-#LoadModule rewrite_module libexec/apache2/mod_rewrite.so
-#LoadModule php5_module libexec/apache2/libphp5.so
-```
+2. Update yur file's Apache User/Group from `_www` to your `{username}` and `staff` at around line 181-182. 
 
-At around line 236, of httpd.conf file, you'll find the DocumentRoot and `<Directory "/Library/WebServer/Documents">`. Update both to: `/Users/{username}/Localhost`
+3. At around line 236, you'll find the DocumentRoot and `<Directory "/Library/WebServer/Documents">`. Update both to: `/Users/{username}/Localhost`
 
-Also, within `<Directory>`, update `AllowOverride None` to `AllowOverride All` so that .htaccess files will work as well as `Options FollowSymLinks Multiviews` to `Options FollowSymLinks Multiviews Indexes` so that we can view directory listings.
+4. Also, within `<Directory>`, update `AllowOverride None` to `AllowOverride All` so that .htaccess files will work as well as `Options FollowSymLinks Multiviews` to `Options FollowSymLinks Multiviews Indexes` so that we can view directory listings.
 
 Restart Apache: `sudo apachectl restart`
 
@@ -283,9 +286,15 @@ sudo chgrp staff /Users/{username}/Localhost
 sudo chmod g+rws /Users/{username}/Localhost
 sudo chmod g+rw /Users/{username}/Localhost/*
 ```
+or otherwise
+`sudo chmod -R g+w {path}`.
 
 Create a new file called info.php with <?php phpinfo(); ?> inside your new document root; e.g. /Users/{username}/Localhost/.
 
 Use your browser to navigate to `localhost/info.php` and check your PHP version, as well as anything else you might need to reference in the future.
 
-Use Ghosts when creating new projects in conjuncture with this setup, and have a beer cuz you just became a fly ass mother fucker.
+Use [Ghosts](https://github.com/kiriaze/ghost) when creating new projects in conjuncture with this setup, and have a beer cuz you just became a fly ass mother fucker.
+A one liner to reference, 
+```
+bash <(curl -s https://raw.githubusercontent.com/kiriaze/ghost/master/ghost.sh)
+```
