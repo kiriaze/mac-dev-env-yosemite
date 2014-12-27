@@ -297,5 +297,5 @@ Use your browser to navigate to `localhost/info.php` and check your PHP version,
 Use [Ghosts](https://github.com/kiriaze/ghost) when creating new projects in conjuncture with this setup, and have a beer cuz you just became a fly ass mother fucker.
 A one liner to reference, 
 ```
-bash <(curl -s https://raw.githubusercontent.com/kiriaze/ghost/master/ghost.sh)
+bash <(curl -s https://raw.githubusercontent.com/kiriaze/ghosts/master/ghosts.sh)
 ```
