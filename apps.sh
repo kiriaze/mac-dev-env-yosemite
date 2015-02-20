@@ -47,7 +47,7 @@ apps=(
   miro
   mou
   moom
-  nameChanger
+  namechanger
   openoffice
   parallels
   smcfancontrol
