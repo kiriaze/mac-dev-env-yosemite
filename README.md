@@ -272,6 +272,7 @@ Within the httpd.conf:
     ```
     #LoadModule rewrite_module libexec/apache2/mod_rewrite.so
     #LoadModule php5_module libexec/apache2/libphp5.so
+    # Include /private/etc/apache2/extra/httpd-vhosts.conf
     ```
 
 2. Update yur file's Apache User/Group from `_www` to your `{username}` and `staff` at around line 181-182. 
@@ -279,6 +280,15 @@ Within the httpd.conf:
 3. At around line 236, you'll find the DocumentRoot and `<Directory "/Library/WebServer/Documents">`. Update both to: `/Users/{username}/Localhost`
 
 4. Also, within `<Directory>`, update `AllowOverride None` to `AllowOverride All` so that .htaccess files will work as well as `Options FollowSymLinks Multiviews` to `Options FollowSymLinks Multiviews Indexes` so that we can view directory listings.
+
+5. Create a {username}.conf
+    ```
+    <Directory "/Users/admin/Localhost/">
+    	AllowOverride All
+    	Options Indexes MultiViews FollowSymLinks
+    	Require all granted
+    </Directory>
+    ```
 
 Restart Apache: `sudo apachectl restart`
 
