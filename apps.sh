@@ -19,7 +19,7 @@ apps=(
   qlprettypatch
   quicklook-csv
   betterzipql
-  webp-quicklook
+  webpquicklook
   suspicious-package
   asepsis
   shiori
@@ -49,10 +49,9 @@ apps=(
   moom
   namechanger
   openoffice
-  parallels
+  parallels-desktop
   smcfancontrol
   sourcetree
-  twin
   unrarx
   sequel-pro
   github
