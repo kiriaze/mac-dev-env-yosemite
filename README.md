@@ -268,6 +268,7 @@ cd /etc/apache2
 subl /etc/apache2/httpd.conf
 ```
 Within the httpd.conf:
+
 1. To enable PHP and rewriting in Apache, remove the leading # from these two lines:
     ```
     #LoadModule rewrite_module libexec/apache2/mod_rewrite.so
