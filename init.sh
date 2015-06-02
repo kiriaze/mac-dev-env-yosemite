@@ -282,7 +282,11 @@ esac
 
 # xcode dev tools
   pretty_print "Installing xcode dev tools..."
-  xcode-select --install
+  if [[ xcode-select -p eq 2 ]] ; then # returns 2 if not installed, 0 if is installed
+    xcode-select --install
+    sleep 1 # wait
+    osascript -e 'tell application "System Events"' -e 'tell process "Install Command Line Developer Tools"' -e 'keystroke return' -e 'click button "Agree" of window "License Agreement"' -e 'end tell' -e 'end tell'
+  fi
 
 ## xquartz
   pretty_print "Installing xquartz..."
