@@ -7,22 +7,23 @@ pretty_print() {
   printf "\n%b\n" "$1"
 }
 
+checkFor {
+  type "$1" &> /dev/null ;
+}
+
 pretty_print "setting up your dev environment like a boss..."
 
 # Set continue to false by default
 CONTINUE=false
 
-echo ""
-pretty_print "###############################################"
+pretty_print "\n###############################################"
 pretty_print "#        DO NOT RUN THIS SCRIPT BLINDLY       #"
 pretty_print "#         YOU'LL PROBABLY REGRET IT...        #"
 pretty_print "#                                             #"
 pretty_print "#              READ IT THOROUGHLY             #"
 pretty_print "#         AND EDIT TO SUIT YOUR NEEDS         #"
-pretty_print "###############################################"
-echo ""
+pretty_print "###############################################\n\n"
 
-echo ""
 pretty_print "Have you read through the script you're about to run and "
 pretty_print "understood that it will make changes to your computer? (y/n)"
 read -r response
@@ -48,16 +49,13 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # General UI/UX
 ###############################################################################
 
-echo ""
-echo "Would you like to set your computer name (as done via System Preferences >> Sharing)?  (y/n)"
+echo "\nWould you like to set your computer name (as done via System Preferences >> Sharing)?  (y/n)"
 read -r response
 case $response in
   [yY])
       echo "What would you like it to be?"
       read COMPUTER_NAME
-      sudo scutil --set ComputerName $COMPUTER_NAME
-      sudo scutil --set HostName $COMPUTER_NAME
-      sudo scutil --set LocalHostName $COMPUTER_NAME
+      sudo scutil --set ComputerName $COMPUTER_NAME --set HostName $COMPUTER_NAME --set LocalHostName $COMPUTER_NAME
       sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $COMPUTER_NAME
       break;;
   *) break;;
@@ -152,44 +150,35 @@ defaults write com.apple.Safari IncludeDevelopMenu -bool true
 defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
 defaults write com.apple.Safari "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" -bool true
 
-echo ""
-echo "Adding a context menu item for showing the Web Inspector in web views"
+echo "\nAdding a context menu item for showing the Web Inspector in web views"
 defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 
-
 # Use current directory as default search scope in Finder
-echo ""
-echo "Use current directory as default search scope in Finder"
+echo "\nUse current directory as default search scope in Finder"
 defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
 # Show Path bar in Finder
-echo ""
-echo "Show Path bar in Finder"
+echo "\nShow Path bar in Finder"
 defaults write com.apple.finder ShowPathbar -bool true
 
 # Show Status bar in Finder
-echo ""
-echo "Show Status bar in Finder"
+echo "\nShow Status bar in Finder"
 defaults write com.apple.finder ShowStatusBar -bool true
 
 # Show indicator lights for open applications in the Dock
-echo ""
-echo "Show indicator lights for open applications in the Dock"
+echo "\nShow indicator lights for open applications in the Dock"
 defaults write com.apple.dock show-process-indicators -bool true
 
 # Set a blazingly fast keyboard repeat rate
-echo ""
-echo "Set a blazingly fast keyboard repeat rate"
+echo "\nSet a blazingly fast keyboard repeat rate"
 defaults write NSGlobalDomain KeyRepeat -int 1
 
 # Set a shorter Delay until key repeat
-echo ""
-echo "Set a shorter Delay until key repeat"
+echo "\nSet a shorter Delay until key repeat"
 defaults write NSGlobalDomain InitialKeyRepeat -int 12
 
 # Show the ~/Library folder
-echo ""
-echo "Show the ~/Library folder"
+echo "\nShow the ~/Library folder"
 chflags nohidden ~/Library
 
 
@@ -282,7 +271,12 @@ esac
 
 # xcode dev tools
   pretty_print "Installing xcode dev tools..."
-  xcode-select --install
+  if [ "$(checkFor pkgutil --pkg-info=com.apple.pkg.CLTools_Executables)" ]; then
+    printf 'Command-Line Tools is not installed.  Installing..' ;
+    xcode-select --install
+    sleep 1
+    osascript -e 'tell application "System Events"' -e 'tell process "Install Command Line Developer Tools"' -e 'keystroke return' -e 'click button "Agree" of window "License Agreement"' -e 'end tell' -e 'end tell'
+  fi
 
 ## xquartz
   pretty_print "Installing xquartz..."
