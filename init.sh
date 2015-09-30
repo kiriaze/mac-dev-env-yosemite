@@ -483,6 +483,11 @@ pretty_print "Installing custom Rails app generator from Icalia"
   curl -L https://raw2.github.com/IcaliaLabs/railsAppCustomGenerator/master/install.sh | sh
 
 pretty_print "Installing pow to serve local rails apps like a superhero..."
+  # Making Pow and PHP work together nicely...
+  echo 'export POW_DST_PORT=88' >> ~/.powconfig
+  sudo curl -L https://gist.githubusercontent.com/soupmatt/1058580/raw/zzz_pow.conf -o /private/etc/apache2/other/zzz_pow.conf
+  sudo apachectl restart
+  # Installing POW
   curl get.pow.cx | sh
 
 pretty_print "Installing NodeJs..."
