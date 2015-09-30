@@ -291,20 +291,31 @@ Within the httpd.conf:
     </Directory>
     ```
 
-Restart Apache: `sudo apachectl restart`
+4. Give yourself permissions to the /Users/{username}/Localhost/ folder using these cli commands:
+	```
+	sudo chgrp staff /Users/{username}/Localhost
+	sudo chmod g+rws /Users/{username}/Localhost
+	sudo chmod g+rw /Users/{username}/Localhost/*
+	```
+	# or otherwise
+	`sudo chmod -R g+w {path}`.
 
-Give yourself permissions to the /Users/{username}/Localhost/ folder using these cli commands:
-```
-sudo chgrp staff /Users/{username}/Localhost
-sudo chmod g+rws /Users/{username}/Localhost
-sudo chmod g+rw /Users/{username}/Localhost/*
-```
-or otherwise
-`sudo chmod -R g+w {path}`.
+5. Remove the content ( if you want ) from /etc/apache2/extra/httpd-vhosts.conf and add the code below before everything else
+	```
+	NameVirtualHost *:80
+	```
+Followed by an example virtual host that points to the root of your web project directory e.g. Localhost
+	```
+	<VirtualHost *:80>
+	    DocumentRoot "/Users/kiriaze/Localhost"
+	</VirtualHost>
+	```
 
-Create a new file called info.php with <?php phpinfo(); ?> inside your new document root; e.g. /Users/{username}/Localhost/.
+6. Restart Apache: `sudo apachectl restart`
 
-Use your browser to navigate to `localhost/info.php` and check your PHP version, as well as anything else you might need to reference in the future.
+7. Create a new file called info.php with <?php phpinfo(); ?> inside your new document root; e.g. /Users/{username}/Localhost/.
+
+8. Use your browser to navigate to `localhost/info.php` and check your PHP version, as well as anything else you might need to reference in the future.
 
 Use [Ghosts](https://github.com/kiriaze/ghost) when creating new projects in conjuncture with this setup, and have a beer cuz you just became a fly ass mother fucker.
 A one liner to reference, 
