@@ -276,29 +276,29 @@ Within the httpd.conf:
     # Include /private/etc/apache2/extra/httpd-vhosts.conf
     ```
 
-2. Update yur file's Apache User/Group from `_www` to your `{username}` and `staff` at around line 181-182. 
+2. Update yur file's Apache User/Group from `_www` to your `$(whoami)` and `staff` at around line 181-182. 
 
-3. At around line 236, you'll find the DocumentRoot and `<Directory "/Library/WebServer/Documents">`. Update both to: `/Users/{username}/Localhost` or whichever destination you prefer.
+3. At around line 236, you'll find the DocumentRoot and `<Directory "/Library/WebServer/Documents">`. Update both to: `/Users/$(whoami)/Localhost` or whichever destination you prefer.
 
 4. Also, within `<Directory>`, update `AllowOverride None` to `AllowOverride All` so that .htaccess files will work as well as `Options FollowSymLinks Multiviews` to `Options FollowSymLinks Multiviews Indexes` so that we can view directory listings.
 
-5. Create a {username}.conf within the etc/apache2/users/ directory.
+5. Create a $(whoami).conf within the etc/apache2/users/ directory.
     ```
-    <Directory "/Users/{username}/Localhost/">
+    <Directory "/Users/$(whoami)/Localhost/">
     	AllowOverride All
     	Options Indexes MultiViews FollowSymLinks
     	Require all granted
     </Directory>
     ```
 
-4. Give yourself permissions to the /Users/{username}/Localhost/ folder using these cli commands:
+4. Give yourself permissions to the /Users/$(whoami)/Localhost/ folder using these cli commands:
 	```
-	sudo chgrp staff /Users/{username}/Localhost
-	sudo chmod g+rws /Users/{username}/Localhost
-	sudo chmod g+rw /Users/{username}/Localhost/*
+	sudo chgrp staff /Users/$(whoami)/Localhost
+	sudo chmod g+rws /Users/$(whoami)/Localhost
+	sudo chmod g+rw /Users/$(whoami)/Localhost/*
+	// or otherwise specifically...but the above should handle anything added from there on out
+	sudo chmod -R g+w {path}
 	```
-	# or otherwise
-	`sudo chmod -R g+w {path}`.
 
 5. Remove the content ( if you want ) from /etc/apache2/extra/httpd-vhosts.conf and add the code below before everything else
 	```
@@ -313,12 +313,20 @@ Followed by an example virtual host that points to the root of your web project 
 
 6. Restart Apache: `sudo apachectl restart`
 
-7. Create a new file called info.php with <?php phpinfo(); ?> inside your new document root; e.g. /Users/{username}/Localhost/.
+7. Create a new file called info.php with <?php phpinfo(); ?> inside your new document root; e.g. /Users/$(whoami)/Localhost/.
 
 8. Use your browser to navigate to `localhost/info.php` and check your PHP version, as well as anything else you might need to reference in the future.
 
-Use [Ghosts](https://github.com/kiriaze/ghost) when creating new projects in conjuncture with this setup, and have a beer cuz you just became a fly ass mother fucker.
-A one liner to reference, 
-```
-bash <(curl -s https://raw.githubusercontent.com/kiriaze/ghosts/master/ghosts.sh)
-```
+
+## Notes
+
+1. The init.sh script also installs a few other things such as: adobe-creative-cloud, MongoDB, Reddis, PostgreSQL - and you can setup your git global creds from the script as well.
+
+2. Use [Ghosts](https://github.com/kiriaze/ghost) when creating new projects in conjuncture with this setup, and have a beer cuz you just became a fly ass mother fucker. A one liner to reference below: 
+	```
+	bash <(curl -s https://raw.githubusercontent.com/kiriaze/ghosts/master/ghosts.sh)
+	```
+
+## Todos
+
+Include usage of MongoDB, Reddis, PostgreSQL.
