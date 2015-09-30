@@ -138,6 +138,9 @@ Mac Dev Env Setup consists of:
 	$ mysql -u root -p # Connect to MariaDB
 
 
+### SequelPro
+SequelPro is installed via apps.sh if you're running the init.sh script with a few other apps. To use with MariaDB/MySql, add new Favorite in SequelPro sidebar, and set the host to 127.0.0.1 with the username 'root' and whatever password you set above in the MariaDB setup. Test connection, and save it. Now you can easily connect to all your local databases!
+
 
 ### Git
 	$ brew install git
