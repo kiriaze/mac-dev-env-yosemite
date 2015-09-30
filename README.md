@@ -129,6 +129,10 @@ Mac Dev Env Setup consists of:
 	$ cd /usr/local/Cellar/mariadb/{VERSION}
 	$ mysql_install_db
 
+	# if mysql_install_db gives you errors and such, possible conflicting and multiple "mysqld" processes could be causing the sql server instance not to launch.
+	# open up activity monitor and search for mysqld, and quit those processes
+	# then try to start up mariadb with the code below
+
 	$ mysql.server start # Start MariaDB
 	$ mysql_secure_installation # Secure the Installation
 	$ mysql -u root -p # Connect to MariaDB
