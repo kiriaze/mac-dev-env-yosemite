@@ -7,7 +7,7 @@ pretty_print() {
   printf "\n%b\n" "$1"
 }
 
-checkFor {
+checkFor() {
   type "$1" &> /dev/null ;
 }
 
@@ -253,7 +253,7 @@ esac
 ###############################################################################
 
 echo ""
-echo "Do you use Sublime Text 3 as your editor of choice, and is it installed?"
+echo "Do you use Sublime Text 3 as your editor of choice, and is it installed? (y/n)"
 read -r response
 case $response in
   [yY])
@@ -282,6 +282,8 @@ esac
   pretty_print "Installing xquartz..."
   curl http://xquartz-dl.macosforge.org/SL/XQuartz-2.7.7.dmg -o /tmp/XQuartz.dmg
   open /tmp/XQuartz.dmg
+  sudo installer -package /Volumes/XQuartz-2.7.7/XQuartz.pkg -target /
+  hdiutil detach /Volumes/XQuartz-2.7.7
 
 # Oh my zsh installation
 pretty_print "Installing oh-my-zsh..."
@@ -360,6 +362,18 @@ pretty_print "Installing mariadb..."
   mysql_install_db
   mysql.server start # Start MariaDB
   mysql_secure_installation # Secure the Installation
+
+# MongoDB installation
+pretty_print "Installing MongoDB"
+  brew install mongo
+
+# Reddis installation
+pretty_print "Installing Reddis"
+  brew install redis
+
+# PostgreSQL installation
+pretty_print "Installing PostgreSQL"
+  brew install postgresql
 
 # Rbenv installation
 pretty_print "Rbenv installation for managing your rubies"
@@ -466,22 +480,23 @@ pretty_print "Installing apps..."
 pretty_print "Installing fonts..."
   sh fonts.sh
 
+# install adove creative cloud app from cask install
+pretty_print "Adobe Creative Cloud - cask requires to run the installer again"
+  open /opt/homebrew-cask/Caskroom/adobe-creative-cloud/latest/Creative\ Cloud\ Installer.app
+
 # when done with cask
 brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup
 
-# iterm
+# iterm - copy files into ~ dir
 pretty_print "Setup iterm..."
-  cd ~
-  curl -O https://raw.githubusercontent.com/nicolashery/mac-dev-setup/master/.bash_profile
-  curl -O https://raw.githubusercontent.com/nicolashery/mac-dev-setup/master/.bash_prompt
-  curl -O https://raw.githubusercontent.com/nicolashery/mac-dev-setup/master/.aliases
+  cp {.bash_profile,.bash_prompt,.aliases} ~
 
 # Install Mackup
 pretty_print "Installing Mackup..."
   brew install mackup
 
 # Launch it and back up your files
-pretty_print "Running Mackup Backup..."
+pretty_print "Running Mackup Backup...required dropbox to be setup first. Run again with $mackup backup"
   mackup backup
 
 ###############################################################################
