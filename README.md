@@ -337,3 +337,5 @@ Followed by an example virtual host that points to the root of your web project 
 ## Todos
 
 Include usage of MongoDB, Reddis, PostgreSQL.
+
+Consider dot files or a workaround for symlinking ( although osx deletes it on upgrade ) the httpd.conf file and others for local setup to prevent overwriting on OS upgrades - like el capitain..
