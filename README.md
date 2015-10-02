@@ -95,6 +95,7 @@ Mac Dev Env Setup consists of:
 	$ cat /etc/shells | grep zsh || which zsh | sudo tee -a /etc/shells
 	$ chsh -s $(which zsh)
 
+### Resetting your default login shell
 
 ## Setup PHP CLI binary
 
