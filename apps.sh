@@ -49,7 +49,6 @@ apps=(
   moom
   namechanger
   openoffice
-  parallels-desktop
   smcfancontrol
   sourcetree
   unrarx
@@ -57,7 +56,6 @@ apps=(
   github
   codekit
   tomighty
-  rescuetime
 )
 
 # Install apps to /Applications
