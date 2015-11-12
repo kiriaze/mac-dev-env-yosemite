@@ -23,7 +23,6 @@ apps=(
   webpquicklook
   suspicious-package
   asepsis
-  shiori
   sublime-text3
   virtualbox
   atom
