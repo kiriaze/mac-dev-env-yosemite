@@ -21,6 +21,7 @@ apps=(
   quicklook-csv
   betterzipql
   webpquicklook
+  qlimagesize
   suspicious-package
   asepsis
   sublime-text3
