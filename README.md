@@ -63,8 +63,6 @@ Mac Dev Env Setup consists of:
 	$ brew doctor
 	$ brew update
 	$ brew upgrade
-	$ brew tap homebrew/dupes
-	$ brew tap homebrew/versions
 	$ brew tap homebrew/homebrew-php # theres also: brew tap homebrew/php
 	$ brew install php56
 	$ brew install imagemagick
@@ -81,7 +79,7 @@ Mac Dev Env Setup consists of:
 `$ brew install bash`
 
 ### Install more recent versions of some OS X tools
-`$ brew install homebrew/dupes/grep`
+`$ brew install grep`
 
 #### You'll need to update PATH in your ~/.bash_profile to use these over their Mac counterparts:
 
@@ -110,7 +108,7 @@ Mac Dev Env Setup consists of:
 ## Setup auto start
 	$ mkdir -p ~/Library/LaunchAgents
 	# note below, path version might be different
-	$ cp /usr/local/Cellar/php56/5.6.2/homebrew.mxcl.php56.plist ~/Library/LaunchAgents/
+	$ cp /usr/local/Cellar/php56/5.6.32_8/homebrew.mxcl.php56.plist ~/Library/LaunchAgents/
 
 
 ### mysql
@@ -144,7 +142,6 @@ Mac Dev Env Setup consists of:
 ### SequelPro
 SequelPro is installed via apps.sh if you're running the init.sh script with a few other apps. To use with MariaDB/MySql, add new Favorite in SequelPro sidebar, and set the host to 127.0.0.1 with the username 'root' and whatever password you set above in the MariaDB setup. Test connection, and save it. Now you can easily connect to all your local databases!
 
-
 ### Git
 	$ brew install git
 
@@ -171,31 +168,43 @@ SequelPro is installed via apps.sh if you're running the init.sh script with a f
 	$ ssh-add ~/.ssh/id_rsa
 	$ pbcopy < ~/.ssh/id_rsa.pub # Copies the contents of the id_rsa.pub file to your clipboard to paste in github or w/e
 
-
 ### RVM
 	$ curl -L https://get.rvm.io | bash -s stable --ruby
 	$ brew update && brew upgrade
-	$ rvm reinstall 2.1.3 --disable-binary
-
+	$ rvm reinstall 2.4.1 --disable-binary
 
 ### Node
 	$ brew update
 	$ brew install node
 
-
-### composer
+### Composer
 	$ brew update
 	$ brew install composer
-### bower
+	
+### Bower
 	$ npm install -g bower
-### bundler
+	
+### Yarn (alternative to bower)
+	$ brew install yarn
+	
+### Bundler
 	$ gem install bundler
 	# now you can use guard within projects
+	
 ### Grunt
-	$ npm install -g grunt-cli
-### gulp
-	$ npm install --global gulp
+with npm:
 
+	$ npm install -g grunt-cli
+
+with yarn:
+
+	$ yarn global add grunt-cli
+
+### Gulp
+	$ npm install --global gulp
+or	
+
+	$ yarn global add gulp
 
 ### Cask
 	$ brew install caskroom/cask/brew-cask
